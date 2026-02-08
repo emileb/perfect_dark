@@ -209,7 +209,7 @@ void pacApplyNextVictim(void)
 
 	for (i = 0; i < PLAYERCOUNT(); i++) {
 		if (vplayernum == i) {
-			sprintf(text, langGet(L_MPWEAPONS_013)); // "You are the victim!"
+            strcpy(text, langGet(L_MPWEAPONS_013)); // "You are the victim!"
 		} else if (scenarioChrsAreSameTeam(vplayernum, i)) {
 #if VERSION >= VERSION_JPN_FINAL
 			sprintf(text, langGet(L_MPWEAPONS_014), scenarioRemoveLineBreaks(g_MpAllChrConfigPtrs[vplayernum]->name, 0)); // "Protect %s!"

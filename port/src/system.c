@@ -162,6 +162,11 @@ s32 sysLogIsOpen(void)
 	return (logPath[0] != '\0');
 }
 
+#ifndef LOGI
+#include <android/log.h>
+#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,"PERFECT DARK",__VA_ARGS__)
+#endif
+
 void sysLogPrintf(s32 level, const char *fmt, ...)
 {
 	static const char *prefix[3] = {
@@ -175,6 +180,7 @@ void sysLogPrintf(s32 level, const char *fmt, ...)
 	vsnprintf(logmsg, sizeof(logmsg), fmt, ap);
 	va_end(ap);
 
+#ifndef __ANDROID__
 	if (logPath[0]) {
 		FILE *f = fopen(logPath, "ab");
 		if (f) {
@@ -185,6 +191,9 @@ void sysLogPrintf(s32 level, const char *fmt, ...)
 
 	FILE *fout = (level == LOG_NOTE) ? stdout : stderr;
 	fprintf(fout, "%s%s\n", prefix[level], logmsg);
+#else
+    LOGI("%s", logmsg);
+#endif
 }
 
 void sysFatalError(const char *fmt, ...)

@@ -154,7 +154,7 @@ void mpstatsRecordPlayerDeath(void)
 
 	if (g_Vars.normmplayerisrunning) {
 		if (g_Vars.currentplayer->deathcount == 1) {
-			sprintf(buffer, langGet(L_GUN_002)); // "Died once"
+            strcpy(buffer, langGet(L_GUN_002)); // "Died once"
 		} else {
 			sprintf(buffer, "%s %d %s\n",
 					langGet(L_GUN_003), // "Died"

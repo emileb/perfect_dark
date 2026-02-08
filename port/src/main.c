@@ -93,7 +93,11 @@ static void cleanup(void)
 	// TODO: actually shut down all subsystems
 }
 
+#ifdef __ANDROID__
+int main_mobile(int argc, const char **argv)
+#else
 int main(int argc, const char **argv)
+#endif
 {
 	sysInitArgs(argc, argv);
 

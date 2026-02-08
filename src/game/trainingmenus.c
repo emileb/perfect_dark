@@ -698,7 +698,7 @@ MenuItemHandlerResult frScoringMenuHandler(s32 operation, struct menuitem *item,
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "Bull's-eye"
-		sprintf(text, langGet(L_MPMENU_461));
+        strcpy(text, langGet(L_MPMENU_461));
 		x = renderdata->x + 122;
 		y = renderdata->y + 14;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
@@ -720,7 +720,7 @@ MenuItemHandlerResult frScoringMenuHandler(s32 operation, struct menuitem *item,
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "Zone 1"
-		sprintf(text, langGet(L_MPMENU_462));
+        strcpy(text, langGet(L_MPMENU_462));
 		x = renderdata->x + 122;
 		y = renderdata->y + (VERSION == VERSION_JPN_FINAL ? 26 : 25);
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
@@ -742,7 +742,7 @@ MenuItemHandlerResult frScoringMenuHandler(s32 operation, struct menuitem *item,
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "Zone 2"
-		sprintf(text, langGet(L_MPMENU_463));
+        strcpy(text, langGet(L_MPMENU_463));
 		x = renderdata->x + 122;
 		y = renderdata->y + (VERSION == VERSION_JPN_FINAL ? 38 : 36);
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
@@ -780,7 +780,7 @@ MenuItemHandlerResult frScoringMenuHandler(s32 operation, struct menuitem *item,
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "Hit total"
-		sprintf(text, langGet(L_MPMENU_465));
+        strcpy(text, langGet(L_MPMENU_465));
 		x = renderdata->x + 133;
 		y = renderdata->y + 63;
 
@@ -807,35 +807,35 @@ MenuItemHandlerResult frScoringMenuHandler(s32 operation, struct menuitem *item,
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "Scoring"
-		sprintf(text, langGet(L_MPMENU_466));
+        strcpy(text, langGet(L_MPMENU_466));
 		x = renderdata->x + 83;
 		y = renderdata->y + 1;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsHandelGothicSm, g_FontHandelGothicSm, COLOUR(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "10"
-		sprintf(text, langGet(L_MPMENU_467));
+        strcpy(text, langGet(L_MPMENU_467));
 		x = renderdata->x + 38;
 		y = renderdata->y + 35;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsNumeric, g_FontNumeric, COLOURWHITE(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "5"
-		sprintf(text, langGet(L_MPMENU_468));
+        strcpy(text, langGet(L_MPMENU_468));
 		x = renderdata->x + 32;
 		y = renderdata->y + 26;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsNumeric, g_FontNumeric, COLOURWHITE(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "2"
-		sprintf(text, langGet(L_MPMENU_469));
+        strcpy(text, langGet(L_MPMENU_469));
 		x = renderdata->x + 24;
 		y = renderdata->y + 16;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);
 		gdl = textRenderProjected(gdl, &x, &y, text, g_CharsNumeric, g_FontNumeric, COLOURWHITE(), viGetWidth(), viGetHeight(), 0, 0);
 
 		// "1"
-		sprintf(text, langGet(L_MPMENU_470));
+        strcpy(text, langGet(L_MPMENU_470));
 		x = renderdata->x + 14;
 		y = renderdata->y + 4;
 		gdl = text0f153858(gdl, &x, &y, &textheight, &textwidth);

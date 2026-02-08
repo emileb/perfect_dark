@@ -4722,7 +4722,7 @@ MenuItemHandlerResult menuhandlerCinema(s32 operation, struct menuitem *item, un
 		break;
 	case MENUOP_GETOPTIONTEXT:
 		if (data->list.value == 0) {
-			sprintf(g_StringPointer, langGet(L_OPTIONS_448)); // "Play All"
+            strcpy(g_StringPointer, langGet(L_OPTIONS_448)); // "Play All"
 			return (uintptr_t) g_StringPointer;
 		}
 		return (uintptr_t) langGet(g_Cutscenes[data->list.value - 1].name);

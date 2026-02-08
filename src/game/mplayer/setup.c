@@ -2441,7 +2441,7 @@ MenuItemHandlerResult menuhandlerMpTimeLimitSlider(s32 operation, struct menuite
 		break;
 	case MENUOP_GETSLIDERLABEL:
 		if (data->slider.value == 60) {
-			sprintf(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
+            strcpy(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
 		} else {
 			sprintf(data->slider.label, langGet(L_MPMENU_114), data->slider.value + 1); // "%d Min"
 		}
@@ -2460,7 +2460,7 @@ MenuItemHandlerResult menuhandlerMpScoreLimitSlider(s32 operation, struct menuit
 		break;
 	case MENUOP_GETSLIDERLABEL:
 		if (data->slider.value == 100) {
-			sprintf(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
+            strcpy(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
 		} else {
 			sprintf(data->slider.label, langGet(L_MPMENU_113), data->slider.value + 1); // "%d"
 		}
@@ -2480,7 +2480,7 @@ MenuItemHandlerResult menuhandlerMpTeamScoreLimitSlider(s32 operation, struct me
 		break;
 	case MENUOP_GETSLIDERLABEL:
 		if (data->slider.value == 400) {
-			sprintf(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
+            strcpy(data->slider.label, langGet(L_MPMENU_112)); // "No Limit"
 		} else {
 			sprintf(data->slider.label, langGet(L_MPMENU_113), data->slider.value + 1); // "%d"
 		}

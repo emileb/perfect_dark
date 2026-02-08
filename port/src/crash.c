@@ -222,6 +222,7 @@ static void *crashGetModuleBase(const void *addr)
 
 static void crashStackTrace(char *msg, s32 sig, void *pc)
 {
+#ifndef __ANDROID__
 	u32 msglen = 0;
 	void *frames[CRASH_MAX_FRAMES] = { NULL };
 
@@ -264,10 +265,12 @@ static void crashStackTrace(char *msg, s32 sig, void *pc)
 	}
 
 	free(strings);
+#endif
 }
 
 static void crashHandler(s32 sig, siginfo_t *siginfo, void *ctx)
 {
+#ifndef __ANDROID__
 	char msg[CRASH_MAX_MSG + 1] = { 0 };
 
 	if (crashIsDebuggerPresent()) {
@@ -296,6 +299,7 @@ static void crashHandler(s32 sig, siginfo_t *siginfo, void *ctx)
 	crashStackTrace(msg, sig, pc);
 
 	sysFatalError("Crash!\n\n%s", msg);
+#endif
 }
 
 #endif
@@ -306,7 +310,9 @@ static char crashMsg[1024];
 
 void crashInit(void)
 {
-#ifdef PLATFORM_WIN32
+#ifdef __ANDROID__
+    g_CrashEnabled = 0;
+#elif PLATFORM_WIN32
 	SetErrorMode(SEM_FAILCRITICALERRORS);
 	prevExFilter = SetUnhandledExceptionFilter(crashHandler);
 	g_CrashEnabled = 1;
