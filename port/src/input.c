@@ -830,19 +830,40 @@ s32 inputReadController(s32 idx, OSContPad *npad)
 		}
 	}
 
-	if (!pads[idx]) {
-		return 0;
-	}
+#ifdef __ANDROID__
+    s32 leftX = 0;
+    s32 leftY = 0;
+    s32 rightX = 0;
+    s32 rightY = 0;
+
+    if (idx == 0)
+    {
+
+        void IN_ANDROID(uint32_t *buttons, int32_t *leftX, int32_t *leftY);
+        IN_ANDROID(&npad->button, &rightX, &rightY);
+    }
+    else
+    {
+        return 0;
+    }
+
+#else
+
+    if (!pads[idx]) {
+        return 0;
+    }
 
 	s32 leftX = SDL_GameControllerGetAxis(pads[idx], cfg->axisMap[0][0]);
 	s32 leftY = SDL_GameControllerGetAxis(pads[idx], cfg->axisMap[0][1]);
 	s32 rightX = SDL_GameControllerGetAxis(pads[idx], cfg->axisMap[1][0]);
 	s32 rightY = SDL_GameControllerGetAxis(pads[idx], cfg->axisMap[1][1]);
 
-	leftX = inputAxisScale(leftX, cfg->deadzone[cfg->axisMap[0][0]], cfg->sens[cfg->axisMap[0][0]]);
-	leftY = inputAxisScale(leftY, cfg->deadzone[cfg->axisMap[0][1]], cfg->sens[cfg->axisMap[0][1]]);
-	rightX = inputAxisScale(rightX, cfg->deadzone[cfg->axisMap[1][0]], cfg->sens[cfg->axisMap[1][0]]);
-	rightY = inputAxisScale(rightY, cfg->deadzone[cfg->axisMap[1][1]], cfg->sens[cfg->axisMap[1][1]]);
+    leftX = inputAxisScale(leftX, cfg->deadzone[cfg->axisMap[0][0]], cfg->sens[cfg->axisMap[0][0]]);
+    leftY = inputAxisScale(leftY, cfg->deadzone[cfg->axisMap[0][1]], cfg->sens[cfg->axisMap[0][1]]);
+    rightX = inputAxisScale(rightX, cfg->deadzone[cfg->axisMap[1][0]], cfg->sens[cfg->axisMap[1][0]]);
+    rightY = inputAxisScale(rightY, cfg->deadzone[cfg->axisMap[1][1]], cfg->sens[cfg->axisMap[1][1]]);
+
+#endif
 
 	if (!npad->stick_x && leftX) {
 		npad->stick_x = leftX / 0x100;

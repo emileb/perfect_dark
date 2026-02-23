@@ -2678,7 +2678,19 @@ extern "C" void gfx_run(Gfx* commands) {
     }
 
     gfx_rapi->end_frame();
+#ifdef __ANDROID__
+    gfx_rapi->set_scissor(0, 0, gfx_current_dimensions.width, gfx_current_dimensions.height);
+#endif    
     gfx_wapi->swap_buffers_begin();
+
+#ifdef __ANDROID__
+    rdp.viewport_or_scissor_changed = true;
+    rendering_state.viewport = {};
+    rendering_state.scissor = {};
+    rendering_state.shader_program = (struct ShaderProgram *)-1;
+    rendering_state.alpha_blend = -1;
+    rendering_state.depth_mode = -1;
+#endif       
 }
 
 extern "C" void gfx_end_frame(void) {

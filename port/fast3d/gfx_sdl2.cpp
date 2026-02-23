@@ -143,6 +143,7 @@ static void gfx_sdl_init(const struct GfxWindowInitSettings *set) {
     }
 #endif
 
+#ifndef __ANDROID__
     // ideally we need 3.0 compat
     // if that doesn't work, try 3.2 core in case we're on mac, 2.1 compat as a last resort
     static u32 glver[][3] = {
@@ -201,6 +202,30 @@ static void gfx_sdl_init(const struct GfxWindowInitSettings *set) {
     } else {
         sysLogPrintf(LOG_NOTE, "SDL: created GL%d.%d%s context", vmaj, vmin, vprofstr);
     }
+
+#else
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+        wnd = SDL_CreateWindow(set->title, 0, 0, 0, 0, flags);
+
+        if (!wnd) {
+            sysLogPrintf(LOG_WARNING, "SDL: could not open SDL window %s", SDL_GetError());
+        }
+
+        ctx = SDL_GL_CreateContext(wnd);
+        if (!ctx) {
+            sysLogPrintf(LOG_WARNING, "SDL: could not create context: %s", SDL_GetError());
+            SDL_DestroyWindow(wnd);
+            wnd = nullptr;
+        }
+
+    if (!wnd || !ctx) {
+        sysFatalError("Could not open SDL window with an OpenGL context of any supported version:\n%s", SDL_GetError());
+    } else {
+        sysLogPrintf(LOG_NOTE, "SDL: created context");
+    }
+#endif
 
     SDL_GL_MakeCurrent(wnd, ctx);
     SDL_GL_SetSwapInterval(1);

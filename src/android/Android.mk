@@ -6,7 +6,7 @@ LOCAL_MODULE := pd
 
 LOCAL_CFLAGS := -Wno-error -Wno-error=format-security -Wno-format-security
 LOCAL_CFLAGS += -DMATCHING=0 -DPIRACYCHECKS=0 -DROM_SIZE=32 -DAVOID_UB=1 -D_LANGUAGE_C=1 -DPAL=0 -DVERSION=2
-LOCAL_CFLAGS += -D__MOBILE__ -fsigned-char -fno-strict-aliasing -fno-inline-functions -fwrapv -DENGINE_NAME=\"perfect_dark\"
+LOCAL_CFLAGS += -D__MOBILE__ -fsigned-char -fno-strict-aliasing -fno-inline-functions -fwrapv -DENGINE_NAME=\"perfect_dark\" -DPERFECT_DARK
 LOCAL_CFLAGS += -Wno-constant-conversion -Wno-implicit-const-int-float-conversion -Wno-address -Wno-empty-body -Wno-int-in-bool-context -Wno-misleading-indentation -Wno-missing-braces -Wno-multichar -Wno-tautological-compare -Wno-unused-but-set-variable -Wno-unused-value -Wno-unused-variable -Wno-pointer-sign
 
 ifneq ($(filter arm64-v8a x86_64,$(TARGET_ARCH_ABI)),)

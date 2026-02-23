@@ -10,6 +10,10 @@
 #include <SDL2/SDL_mouse.h>
 
 #include "SDL2/SDL.h"
+#include <ultra64.h>
+#include "../include/constants.h"
+#include "../include/bss.h"
+#include "../include/input.h"
 
 #ifndef LOGI
 
@@ -34,6 +38,15 @@ int PortableKeyEvent(int state, int code, int unicode)
     return 0;
 }
 
+static uint32_t m_androidButtons = 0;
+
+static void setPadButton(int state, int bit)
+{
+    if(state)
+        m_androidButtons |= 1 << bit;
+    else
+        m_androidButtons &= ~(1 << bit);
+}
 
 void PortableAction(int state, int action)
 {
@@ -77,71 +90,46 @@ void PortableAction(int state, int action)
     }
     else
     {
-
         switch(action)
         {
             case PORT_ACT_LEFT:
-
                 break;
             case PORT_ACT_RIGHT:
-
                 break;
             case PORT_ACT_FWD:
-
                 break;
             case PORT_ACT_BACK:
-
                 break;
             case PORT_ACT_MOVE_LEFT:
-
                 break;
             case PORT_ACT_MOVE_RIGHT:
-
                 break;
-            case PORT_ACT_USE:
-
+            case PORT_ACT_RELOAD:
+                setPadButton(state, CK_X);
+                break;
+            case PORT_ACT_ALT_ATTACK:
+                setPadButton(state, CK_LTRIG);
+                break;
+            case PORT_ACT_N64_BUTTON_A:
+                setPadButton(state, CK_A);
+                break;
+            case PORT_ACT_N64_BUTTON_B:
+                setPadButton(state, CK_B);
                 break;
             case PORT_ACT_ATTACK:
-
+                setPadButton(state, CK_ZTRIG);
                 break;
-            case PORT_ACT_MAP:
-
-                break;
-            case PORT_ACT_MAP_ZOOM_IN:
-
-                break;
-            case PORT_ACT_MAP_ZOOM_OUT:
-
+            case PORT_ACT_INVEN:
+                setPadButton(state, CK_DPAD_D);
                 break;
             case PORT_ACT_NEXT_WEP:
-
+                setPadButton(state, CK_Y);
                 break;
             case PORT_ACT_PREV_WEP:
-
+                setPadButton(state, CK_DPAD_L);
                 break;
-            case PORT_ACT_QUICKSAVE:
-
-                break;
-            case PORT_ACT_QUICKLOAD:
-
-                break;
-            case PORT_ACT_WEAP1:
-
-                break;
-            case PORT_ACT_WEAP2:
-
-                break;
-            case PORT_ACT_WEAP3:
-
-                break;
-            case PORT_ACT_WEAP4:
-
-                break;
-            case PORT_ACT_FLY_UP:
-
-                break;
-            case PORT_ACT_FLY_DOWN:
-
+            case PORT_ACT_DOWN:
+                setPadButton(state, CK_8000);
                 break;
         }
 
@@ -158,7 +146,7 @@ void PortableCommand(const char *cmd)
 
 }
 
-bool PortableSetAlwaysRun(bool run)
+_Bool PortableSetAlwaysRun(_Bool run)
 {
     return false;
 }
@@ -240,10 +228,18 @@ void PortableInit(int argc, const char **argv)
     int main_mobile(int argc, char *argv[]);
     main_mobile(argc, (char **) argv);
 }
-
+extern int32_t anyopen;
+extern int32_t g_StageNum;
 touchscreemode_t PortableGetScreenMode()
 {
-    return TS_MENU;
+    if(g_StageNum==STAGE_TITLE)
+        return TS_BLANK;
+    else if(anyopen)
+        return TS_MENU;
+    else if(PLAYERCOUNT() < 1)
+        return TS_BLANK;
+    else
+        return TS_GAME;
 }
 
 void PortableBackButton()
@@ -259,8 +255,9 @@ void PortableAutomapControl(float zoom, float x, float y)
 }
 
 
-void INL_ANDROID_GetMovement(int *side, int *forward, int *yaw, int *pitch)
+void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y)
 {
+    /*
     *side += sidemove * -0x160000;
     *forward += -forwardmove * 2000;
 
@@ -274,6 +271,18 @@ void INL_ANDROID_GetMovement(int *side, int *forward, int *yaw, int *pitch)
 
     look_yaw_mouse = 0;
     look_pitch_mouse = 0;
+     */
+    *buttons |= m_androidButtons;
+
+    MouseMove(look_yaw_mouse * 9000, look_pitch_mouse * 3000);
+    look_yaw_mouse = 0;
+    look_pitch_mouse = 0;
+
+    *X += sidemove * 20000;
+    *Y += -forwardmove * 32767;
+
+    *X = (*X > 32767) ? 32767 : ((*X < -32768) ? -32768 : *X);
+    *Y = (*Y > 32767) ? 32767 : ((*Y < -32768) ? -32768 : *Y);
 }
 
 

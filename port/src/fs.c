@@ -146,6 +146,9 @@ s32 fsInit(void)
 		}
 	}
 
+#ifdef __ANDROID__
+    strncpy(saveDir, fsFullPath(homeDir), FS_MAXPATH);
+#else
 	// get path to save dir and expand it if needed
 	path = sysArgGetString("--savedir");
 	if (!path) {
@@ -172,6 +175,7 @@ s32 fsInit(void)
 	}
 
 	strncpy(saveDir, fsFullPath(path), FS_MAXPATH);
+#endif
 
 	if (modDir[0]) {
 		sysLogPrintf(LOG_NOTE, " mod dir: %s", modDir);

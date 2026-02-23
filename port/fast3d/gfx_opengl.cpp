@@ -107,7 +107,7 @@ static void gfx_opengl_set_uniforms(struct ShaderProgram* prg) {
 }
 
 static void gfx_opengl_unload_shader(struct ShaderProgram* old_prg) {
-    if (old_prg != NULL) {
+    if (old_prg != NULL && old_prg != (ShaderProgram* )-1) {
         for (int i = 0; i < old_prg->num_attribs; i++) {
             if (old_prg->attrib_locations[i] >= 0) {
                 glDisableVertexAttribArray(old_prg->attrib_locations[i]);
@@ -237,8 +237,8 @@ static struct ShaderProgram* gfx_opengl_create_and_load_new_shader(uint64_t shad
     struct CCFeatures cc_features = { 0 };
     gfx_cc_get_features(shader_id0, shader_id1, &cc_features);
 
-    char vs_buf[2048];
-    char fs_buf[8192];
+    static char vs_buf[2048];
+    static char fs_buf[8192];
     size_t vs_len = 0;
     size_t fs_len = 0;
     size_t num_floats = 4;
@@ -773,7 +773,7 @@ static void gfx_opengl_set_viewport(int x, int y, int width, int height) {
 }
 
 static void gfx_opengl_set_scissor(int x, int y, int width, int height) {
-    glScissor(x, y, width, height);
+   glScissor(x, y, width, height);
 }
 
 static void gfx_opengl_set_use_alpha(bool use_alpha, bool modulate) {
@@ -933,7 +933,7 @@ static void gfx_opengl_init_extensions(void) {
 }
 
 static void gfx_opengl_init(void) {
-    if (!gladLoadGLLoader(gl_load_proc) || glGetString == NULL || glEnable == NULL) {
+    if (!gladLoadGLES2Loader(gl_load_proc) || glGetString == NULL || glEnable == NULL) {
         sysFatalError("Could not load OpenGL.\nReported SDL error: %s", SDL_GetError());
     }
 
@@ -1021,10 +1021,15 @@ static void gfx_opengl_on_resize(void) {
 
 static void gfx_opengl_start_frame(void) {
     frame_count++;
+#ifdef __ANDROID__
+    glBindBuffer(GL_ARRAY_BUFFER, opengl_vbo);
+#endif
 }
 
 static void gfx_opengl_end_frame(void) {
+#ifndef __ANDROID__
     glFlush();
+#endif
 }
 
 static void gfx_opengl_finish_render(void) {

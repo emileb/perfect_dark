@@ -53,7 +53,7 @@ void menuCountDialogs(void)
 		}
 	}
 }
-
+s32 anyopen = false;
 void menuTick(void)
 {
 	s32 i;
@@ -61,7 +61,7 @@ void menuTick(void)
 	s32 k;
 	s32 isdialogopen;
 	s32 sp340 = true;
-	s32 anyopen = false;
+
 
 #if PAL
 	g_ScaleX = 1;
@@ -77,6 +77,7 @@ void menuTick(void)
 
 	menuCountDialogs();
 
+    anyopen = false;
 	for (i = 0; i < ARRAYCOUNT(g_Menus); i++) {
 		if (i);
 

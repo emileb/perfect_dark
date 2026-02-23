@@ -259,6 +259,15 @@ void sysGetExecutablePath(char *outPath, const u32 outLen)
 
 void sysGetHomePath(char *outPath, const u32 outLen)
 {
+
+#ifdef __ANDROID__
+    char user_files[256];
+    snprintf (user_files, sizeof (user_files), "%s/perfectdark/", getenv ("USER_FILES"));
+    fsCreateDir (user_files);
+    strcpy(outPath, user_files);
+    return;
+#endif
+
 	// try asking SDL
 	char *sdlPath = SDL_GetPrefPath("", "perfectdark");
 
