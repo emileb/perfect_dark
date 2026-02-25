@@ -164,6 +164,7 @@ s32 sysLogIsOpen(void)
 
 #ifndef LOGI
 #include <android/log.h>
+#include "LogWritter.h"
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,"PERFECT DARK",__VA_ARGS__)
 #endif
 
@@ -193,6 +194,7 @@ void sysLogPrintf(s32 level, const char *fmt, ...)
 	fprintf(fout, "%s%s\n", prefix[level], logmsg);
 #else
     LOGI("%s", logmsg);
+    LogWritter_Write(logmsg);
 #endif
 }
 

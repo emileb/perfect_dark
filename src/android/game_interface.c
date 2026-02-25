@@ -255,7 +255,7 @@ void PortableAutomapControl(float zoom, float x, float y)
 }
 
 
-void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y)
+void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y, int32_t *X1, int32_t *Y1)
 {
     /*
     *side += sidemove * -0x160000;
@@ -278,9 +278,15 @@ void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y)
     look_yaw_mouse = 0;
     look_pitch_mouse = 0;
 
+    // Joystick LOOK
+    *X1 += -look_yaw_joy * 32767;
+    *Y1 += look_pitch_joy * 32767;
+    *X1 = (*X1 > 32767) ? 32767 : ((*X1 < -32768) ? -32768 : *X1);
+    *Y1= (*Y1 > 32767) ? 32767 : ((*Y1 < -32768) ? -32768 : *Y1);
+
+    // Move
     *X += sidemove * 20000;
     *Y += -forwardmove * 32767;
-
     *X = (*X > 32767) ? 32767 : ((*X < -32768) ? -32768 : *X);
     *Y = (*Y > 32767) ? 32767 : ((*Y < -32768) ? -32768 : *Y);
 }

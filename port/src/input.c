@@ -839,8 +839,8 @@ s32 inputReadController(s32 idx, OSContPad *npad)
     if (idx == 0)
     {
 
-        void IN_ANDROID(uint32_t *buttons, int32_t *leftX, int32_t *leftY);
-        IN_ANDROID(&npad->button, &rightX, &rightY);
+        void IN_ANDROID(uint32_t *buttons, int32_t *leftX, int32_t *leftY,int32_t *X1, int32_t *Y1);
+        IN_ANDROID(&npad->button, &rightX, &rightY, &leftX, &leftY);
     }
     else
     {
