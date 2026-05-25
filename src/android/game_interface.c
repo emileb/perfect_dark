@@ -131,8 +131,10 @@ void PortableAction(int state, int action)
             case PORT_ACT_DOWN:
                 setPadButton(state, CK_8000);
                 break;
+            case PORT_ACT_ZOOM_IN: // Aim mode
+                setPadButton(state, CK_RTRIG);
+                break;
         }
-
     }
 }
 
@@ -254,6 +256,7 @@ void PortableAutomapControl(float zoom, float x, float y)
 
 }
 
+bool bmoveIsInSightAimMode(void);
 
 void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y, int32_t *X1, int32_t *Y1)
 {
@@ -274,7 +277,17 @@ void IN_ANDROID(uint32_t *buttons, int32_t *X, int32_t *Y, int32_t *X1, int32_t 
      */
     *buttons |= m_androidButtons;
 
-    MouseMove(look_yaw_mouse * 9000, look_pitch_mouse * 3000);
+    float xMag = 9000;
+    float yMag = 3000;
+
+    // When in aim mode reduce sensitivity
+    if(bmoveIsInSightAimMode())
+    {
+        xMag /= 3;
+        yMag /= 3;
+    }
+
+    MouseMove(look_yaw_mouse * xMag, look_pitch_mouse * yMag);
     look_yaw_mouse = 0;
     look_pitch_mouse = 0;
 
