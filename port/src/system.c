@@ -13,6 +13,7 @@
 #include <PR/ultratypes.h>
 #include "platform.h"
 #include "system.h"
+#include "fs.h"
 
 #ifdef PLATFORM_WIN32
 
