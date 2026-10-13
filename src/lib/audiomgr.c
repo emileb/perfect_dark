@@ -321,6 +321,8 @@ void amgrHandleDoneMsg(AudioInfo *info)
 }
 
 #ifndef PLATFORM_N64
+s32 audioGetQueueTarget(void);
+
 void amgrFrame(void)
 {
 	static AudioInfo *previnfo = NULL;
@@ -340,13 +342,20 @@ void amgrFrame(void)
 		osAiSetNextBuffer(previnfo->data, previnfo->frameSamples * 4);
 	}
 
-	if (somevalue > 1100 && var8005cf94 == 0) {
+	if (somevalue > audioGetQueueTarget() && var8005cf94 == 0) {
 		// already a lot queued, render 1 naudio frame (184 samples) this frame
 		info->frameSamples = 184;
 		var8005cf94 = 2;
 	} else {
 		// have space in audio queue, render 2 naudio frames this frame (and 1 extra on PAL)
 		info->frameSamples = 368 + PAL * 184;
+
+#ifdef __ANDROID__
+		// Well under target after a slow frame: one more naudio frame, or it takes seconds to refill
+		if (!PAL && somevalue < audioGetQueueTarget() / 2) {
+			info->frameSamples += 184;
+		}
+#endif
 
 		if (var8005cf94 != 0) {
 			var8005cf94--;
